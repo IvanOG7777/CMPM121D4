@@ -27,6 +27,16 @@ func turn(direction: Vector2i) -> void:
 	_turns.append(direction)
 
 
+## function that allows for growth by retaining the tail when eating
+func next_head() -> Vector2i:
+	var direction: Vector2i = heading
+
+	if not _turns.is_empty():
+		direction = _turns.front()
+
+	return body[0] + direction
+
+
 ## Advance one cell, taking the next queued turn first. Wrapping around the grid is a
 ## placeholder: once Session ends the run at solid tiles, the dragon never reaches an edge.
 func tick() -> void:
