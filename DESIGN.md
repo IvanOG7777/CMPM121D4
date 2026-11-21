@@ -75,20 +75,30 @@ Add a test for the new tile's rules and run deno task ci to verify that the chan
 
 ## Patterns, and what they bought us
 
-_Each pattern you used on purpose, where it is, and what it made easier (or harder).
-Where a SOLID principle explains why it helped (for example, open/closed: a new tile
-kind or powerup is added, not edited in), say which one._
+Command Pattern
+The Command pattern is used in core/dragon.gd through the turn queue. Player directions are stored before being applied one at a time during each tick.
+
+This prevents multiple quick key presses from causing incorrect movement or allowing the dragon to reverse into itself.
+
+Game Loop Pattern
+The Game Loop pattern is used in app/main.gd. The game updates its rules every 0.1 seconds, while the camera updates every frame.
+
+This allows the dragon to move at a consistent speed while keeping the camera movement smooth.
+
+Single Responsibility Principle
+Each class has its own responsibility. The Dragon handles movement, the Board handles tiles, the Session handles gameplay rules, and the application handles rendering and input.
+
+This makes the code easier to maintain and test because changes to one responsibility do not necessarily require changes to the others.
 
 ## One idea we carried over
 
-_Pick one idea you used earlier this quarter in TypeScript (for example a Command queue,
-a core kept apart from the framework, data-driven content, or a boundary gate) and
-describe its transfer at three levels:_
+One idea that we had decided to carry over was keeping the game rules separate from the framework.
 
-- _**The problem:** what goes wrong without it, in any engine or language._
-- _**The practice:** what we do about it, the same here as in our TypeScript Demos._
-- _**The mechanism:** how Godot, GDScript, or Blender does it, and what changed from
-  TypeScript (what got easier, what got harder, what we had to give up)._
+The problem: When gameplay rules and rendering are combined, it becomes harder to test the rules without running the entire game. Changes to the interface may also affect the gameplay logic.
+
+The practice: In our previous TypeScript projects, we separated the game's rules from its rendering and input systems using the core/ and app/ directories. We continued using this structure in D4.
+
+The mechanism: In TypeScript, we separated the rules from the game framework through modules and imports. In Godot, we use RefCounted classes for the core and Node-based classes for the application. This allows us to test the game's rules using Godot's headless mode without opening the game window. Unlike TypeScript, GDScript allows classes to be globally accessible through class_name, so the boundary checker must check for engine-specific dependencies rather than only checking imports.
 
 ## Sources we relied on
 
@@ -97,4 +107,6 @@ versions we run (Godot 4.7, Blender 5.2). Add a row when a decision depends on o
 
 | Claim | Source (link) | How we checked it |
 | --- | --- | --- |
-| _what the tool does_ | _manual page or source file_ | _what we ran or looked at_ |
+| A seeded random number generator produces a reproducible sequence of random numbers. | Godot 4.7 RandomNumberGenerator | Reviewed the seed property and its use in Session.spawn_food(). |
+
+| A seeded random number generator produces a reproducible sequence of random numbers. | Godot 4.7 RandomNumberGenerator | Reviewed the seed property and its use in Session.spawn_food(). |
