@@ -2,7 +2,6 @@
 ## run ends. Rules that involve more than the dragon (food, score, what the dragon can
 ## run into) belong here, so Dragon stays about movement and app/ only draws.
 
-
 class_name Session
 extends RefCounted
 
@@ -26,7 +25,7 @@ var rng := RandomNumberGenerator.new()
 
 
 ## function that initalizes game
-func _init( grid_size: Vector2i, game_seed: int = 121, level_board: Board = null ) -> void:
+func _init(grid_size: Vector2i, game_seed: int = 121, level_board: Board = null) -> void:
 	seed_value = game_seed
 	rng.seed = seed_value
 
@@ -98,4 +97,23 @@ func finish_run() -> void:
 ## own body and with solid tiles (board.is_solid). Each needs the dragon and something
 ## else, which is why they go here rather than in Dragon.tick.
 func tick() -> void:
-	dragon.tick()
+	if not started or game_over:
+		return
+
+	var next := dragon.next_head()
+	var growing := next == food
+
+	if board.is_solid(next):
+		finish_run()
+		return
+
+	if hits_body(next, growing):
+		finish_run()
+		return
+
+	dragon.tick(growing)
+
+	if growing:
+		score += 1
+		ate.emit()
+		spawn_food()
