@@ -173,6 +173,18 @@ def build_tail(bm):
         ..o.
         """])
 
+def build_food(bm):
+    voxels(bm, ["""
+        ....
+        .oo.
+        .oo.
+        ....
+        """, """
+        ....
+        .oo.
+        .oo.
+        ....
+        """])
 
 def build_floor(bm):
     voxels(bm, ["""
@@ -197,6 +209,7 @@ PIECES = {  # the dragon kit; the game finds each mesh by these names
     "straight": build_straight,
     "turn": build_turn,
     "tail": build_tail,
+    "food": build_food,
 }
 TILES = {  # one entry per kind in core/board.gd's TILES; a new kind is one builder and one line
     "floor": build_floor,
