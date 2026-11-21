@@ -107,6 +107,6 @@ versions we run (Godot 4.7, Blender 5.2). Add a row when a decision depends on o
 
 | Claim | Source (link) | How we checked it |
 | --- | --- | --- |
-| A seeded random number generator produces a reproducible sequence of random numbers. | Godot 4.7 RandomNumberGenerator | Reviewed the seed property and its use in Session.spawn_food(). |
+| A seeded random number generator produces a reproducible sequence of random numbers. | On Godot webpage under 4.7 RandomNumberGenerator | Reviewed the seed property and its use in Session.spawn_food(). |
 
-| A seeded random number generator produces a reproducible sequence of random numbers. | Godot 4.7 RandomNumberGenerator | Reviewed the seed property and its use in Session.spawn_food(). |
+| Multiple dragon segments can reuse the same mesh resources. |  app/main.gd | We could see that the dragon grows while using the existing body-piece models. |
